@@ -11,11 +11,13 @@ import android.widget.EditText
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mWebsiteEditText: EditText
+    private lateinit var mLocationEditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         mWebsiteEditText = findViewById(R.id.website_edittext)
+        mLocationEditText = findViewById(R.id.location_edittext)
     }
 
     fun openWebsite(view: View) {
@@ -26,7 +28,19 @@ class MainActivity : AppCompatActivity() {
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
         } else {
-            Log.d("ImplicitIntents", "Can't handle this intent!")
+            Log.d("ImplicitIntents", "Can't open website!")
+        }
+    }
+
+    fun openLocation(view: View) {
+        val loc = mLocationEditText.text.toString()
+        val addressUri = Uri.parse("geo:0,0?q=$loc")
+        val intent = Intent(Intent.ACTION_VIEW, addressUri)
+
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        } else {
+            Log.d("ImplicitIntents", "Can't open location")
         }
     }
 }
